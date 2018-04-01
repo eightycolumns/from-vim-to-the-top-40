@@ -1,0 +1,9 @@
+#ifndef LO_PASS
+#define LO_PASS # 1 #
+
+opcode LoPass, a, aki
+  aSignal, kCutoff, iResonance xin
+  xout moogladder(aSignal, kCutoff, iResonance)
+endop
+
+#end

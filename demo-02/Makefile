@@ -10,7 +10,7 @@ all: $(wav_file)
 orchestra := $(makefile_dir)/orchestra
 score := $(makefile_dir)/score
 
-subdirs := envelope instrument part
+subdirs := envelope instrument part plugin
 includes := $(foreach subdir,$(subdirs),$(wildcard $(makefile_dir)/$(subdir)/*))
 
 csound_flags := -B 1024 -b 256 --dither --ksmps=1 -m 135 -s -r 44100
