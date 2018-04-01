@@ -1,0 +1,8 @@
+instr Beeper
+  iAmp = p4
+  iCps = p5
+
+  aOut oscili iAmp, iCps, giSinFt, 0
+
+  outs aOut, aOut
+endin
