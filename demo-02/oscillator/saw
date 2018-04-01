@@ -1,0 +1,9 @@
+#ifndef SAW
+#define SAW # 1 #
+
+opcode Saw, a, ki
+  kAmp, iCps xin
+  xout vco2(kAmp, iCps, 0)
+endop
+
+#end
