@@ -1,8 +1,10 @@
+#include "oscillator/sin"
+
 instr Beeper
   iAmp = p4
   iCps = p5
 
-  aOut oscili iAmp, iCps, giSinFt, 0
+  aOut Sin iAmp, iCps, 0
 
   outs aOut, aOut
 endin
