@@ -1,0 +1,12 @@
+#include "envelope/adsr"
+
+instr Buzzer
+  iAmp = p4
+  iCps = p5
+
+  kAmpEnv Adsr 0.01, 0.99, 0.75, 0.2
+
+  aOut vco2 iAmp * kAmpEnv, iCps, 0
+
+  outs aOut, aOut
+endin
