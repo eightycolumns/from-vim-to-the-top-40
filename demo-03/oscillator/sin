@@ -1,0 +1,10 @@
+#ifndef SIN
+#define SIN # 1 #
+
+opcode Sin, a, kii
+  kAmp, iCps, iInitPhase xin
+  iSinFt ftgenonce 0, 0, pow(2, 16), 10, 1
+  xout oscili(kAmp, iCps, iSinFt, iInitPhase)
+endop
+
+#end

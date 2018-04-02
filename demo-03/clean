@@ -1,0 +1,22 @@
+#!/bin/bash
+
+readonly IMAGE=eightycolumns/csound:1.0.0
+
+main() {
+  image_exists || build_image && clean_demo
+}
+
+image_exists() {
+  docker images | tail -n +2 | awk '{print $1":"$2}' | grep -q "${IMAGE}"
+}
+
+build_image() {
+  docker build -t "${IMAGE}" "${PWD}"
+}
+
+clean_demo() {
+  local -r WORKDIR=/home/csound/demo
+  docker run --rm -v "${PWD}:${WORKDIR}" -w "${WORKDIR}" "${IMAGE}" make clean
+}
+
+[ "${BASH_SOURCE[0]}" == "$0" ] && main "$@"

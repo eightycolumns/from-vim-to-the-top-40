@@ -1,0 +1,32 @@
+#include "envelope/adsr"
+#include "oscillator/saw"
+#include "oscillator/sin"
+#include "plugin/lo-pass"
+#include "util/amp-midi-velo"
+#include "util/cps-midi-note"
+
+instr Bass
+  iMidiVelo = p4
+  iMidiNote = p5
+
+  iDbRange = 24
+  iAmp AmpMidiVelo iMidiVelo, iDbRange
+
+  iMinMidiNote = 28
+  iMaxMidiNote = 63
+  iCps CpsMidiNote iMidiNote, iMinMidiNote, iMaxMidiNote
+
+  iInitPhase rnd 1
+  aSaw Saw iAmp, iCps, iInitPhase
+  aSin Sin iAmp, iCps, iInitPhase
+
+  aOut = aSaw + aSin
+
+  kAmpEnv Adsr 0.01, 0.14, 0.5, 0.2
+  aOut *= kAmpEnv
+
+  kCutoff = 8000 * Adsr(0, 0.15, 0.25, 0.2)
+  aOut LoPass aOut, kCutoff, 0.1
+
+  outs aOut, aOut
+endin

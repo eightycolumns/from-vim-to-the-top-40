@@ -1,0 +1,13 @@
+t 0 60
+f 0 1
+s
+
+t 0 120
+
+#include "part/bass"
+
+s
+
+t 0 60
+f 0 3
+s

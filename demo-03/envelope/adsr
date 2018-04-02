@@ -1,0 +1,16 @@
+#ifndef ADSR
+#define ADSR # 1 #
+
+opcode Adsr, k, iiii
+  iAttack, iDecay, iSustain, iRelease xin
+
+  if (iAttack == 0) then
+    kAdsr transegr 1, iDecay, -3, iSustain, iRelease, -3, 0
+  else
+    kAdsr transegr 0, iAttack, -3, 1, iDecay, -3, iSustain, iRelease, -3, 0
+  endif
+
+  xout kAdsr
+endop
+
+#end
