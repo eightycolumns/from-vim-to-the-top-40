@@ -1,0 +1,49 @@
+#include "bus/main-mix"
+#include "bus/reverb"
+#include "oscillator/operator"
+#include "oscillator/saw"
+#include "oscillator/sin"
+#include "plugin/hi-pass"
+#include "plugin/lo-pass"
+#include "util/amp-midi-velo"
+#include "util/cps-midi-note"
+#include "util/index"
+
+instr Kick
+  iDuration = p3
+  iMidiVelo = p4
+  iMidiNote = p5
+
+  iDbRange = 24
+  iAmp AmpMidiVelo iMidiVelo, iDbRange
+
+  iMinMidiNote = 28
+  iMaxMidiNote = 63
+  iCps CpsMidiNote iMidiNote, iMinMidiNote, iMaxMidiNote
+
+  kAmpEnv transeg 1, iDuration, -3, 0
+  kCpsEnv transeg 4, iDuration, -9, 1
+
+  iInitPhase = 0.25
+
+  aSin Sin iAmp * kAmpEnv, iCps * kCpsEnv, iInitPhase
+
+  aSaw Saw iAmp * kAmpEnv, iCps * 2 * kCpsEnv, iInitPhase
+  aSaw, aSaw LoPass aSaw, aSaw, iCps * 2 * kCpsEnv, 0
+
+  aNoiseFeedbackL init 0
+  aNoise Operator iCps * cent(-1), aNoiseFeedbackL, 0
+  aNoiseFeedbackL = aNoise * Index(100)
+  aNoise *= iAmp
+
+  kNoiseEnv transeg 1, iDuration, -9, 0
+  aNoise *= kNoiseEnv
+
+  aKick = aSin + aSaw + aNoise / 16
+
+  aKick, aKick HiPass aKick, aKick, 40
+  aKick, aKick LoPass aKick, aKick, 8000, 0
+
+  ToReverbBus aKick, aKick, -12
+  ToMainMixBus aKick, aKick, 0
+endin

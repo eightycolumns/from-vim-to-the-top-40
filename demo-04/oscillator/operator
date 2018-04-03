@@ -1,0 +1,10 @@
+#ifndef OPERATOR
+#define OPERATOR # 1 #
+
+opcode Operator, a, kai
+  kCps, aModulation, iInitPhase xin
+  iSinFt ftgenonce 0, 0, pow(2, 16), 10, 1
+  xout a(tablei(phasor(kCps) + aModulation, iSinFt, 1, iInitPhase, 1))
+endop
+
+#end

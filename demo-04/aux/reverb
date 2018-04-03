@@ -1,0 +1,21 @@
+#include "bus/main-mix"
+#include "bus/reverb"
+
+alwayson "Reverb"
+
+instr Reverb
+  aDryL, aDryR FromReverbBus
+
+  denorm aDryL
+  denorm aDryR
+
+  aWetL, aWetR freeverb aDryL, aDryR, 0.25, 1, sr
+
+  aWetL butterhp aWetL, 250
+  aWetR butterhp aWetR, 250
+
+  aWetL butterlp aWetL, 4000
+  aWetR butterlp aWetR, 4000
+
+  ToMainMixBus aWetL, aWetR, 0
+endin

@@ -1,0 +1,58 @@
+#include "bus/main-mix"
+#include "bus/reverb"
+#include "oscillator/operator"
+#include "plugin/hi-pass"
+#include "plugin/lo-pass"
+#include "util/amp-midi-velo"
+#include "util/cps-midi-note"
+#include "util/index"
+
+instr HiHat
+  iDuration = p3
+  iMidiVelo = p4
+  iMidiNote = p5
+
+  iOpen = p6
+
+  iDbRange = 48
+  iAmp AmpMidiVelo iMidiVelo, iDbRange
+
+  iMinMidiNote = 36
+  iMaxMidiNote = 96
+  iCps CpsMidiNote iMidiNote, iMinMidiNote, iMaxMidiNote
+
+  iCpsL = iCps * cent(-10)
+  aModulatorL Operator iCpsL * 1.4, gaNull, 0
+  aModulatorL *= Index(10)
+  aCarrierL Operator iCpsL, aModulatorL, 0
+
+  iCpsR = iCps * cent(+10)
+  aModulatorR Operator iCpsR * 1.4, gaNull, 0
+  aModulatorR *= Index(10)
+  aCarrierR Operator iCpsR, aModulatorR, 0
+
+  aNoiseFeedbackL init 0
+  aNoiseL Operator iCps * cent(-1), aNoiseFeedbackL, 0
+  aNoiseFeedbackL = aNoiseL * Index(100)
+
+  aNoiseFeedbackR init 0
+  aNoiseR Operator iCps * cent(+1), aNoiseFeedbackR, 0
+  aNoiseFeedbackR = aNoiseR * Index(100)
+
+  if (iOpen == 0) then                    // Closed
+    kPitchEnv transeg 1, iDuration, -9, 0
+    kNoiseEnv transeg 1, iDuration, -9, 0
+  else                                    // Open
+    kPitchEnv transeg 1, iDuration, -3, 0
+    kNoiseEnv transeg 1, iDuration, -1, 0
+  endif
+
+  aHiHatL = iAmp * (aCarrierL * kPitchEnv + aNoiseL * kNoiseEnv)
+  aHiHatR = iAmp * (aCarrierR * kPitchEnv + aNoiseR * kNoiseEnv)
+
+  aHiHatL, aHiHatR HiPass aHiHatL, aHiHatR, 1000
+  aHiHatL, aHiHatR Gain aHiHatL, aHiHatR, -12
+
+  ToReverbBus aHiHatL, aHiHatR, -12
+  ToMainMixBus aHiHatL, aHiHatR, 0
+endin
