@@ -1,0 +1,19 @@
+#ifndef CPS_MIDI_NOTE
+#define CPS_MIDI_NOTE # 1 #
+
+opcode CpsMidiNote, i, iii
+  iMidiNote, iMinMidiNote, iMaxMidiNote xin
+
+  iReferenceMidiNote = 69
+  iReferenceCps = 440
+
+  if (iMidiNote < iMinMidiNote || iMidiNote > iMaxMidiNote) then
+    iCps = 0
+  else
+    iCps = pow(2, (iMidiNote - iReferenceMidiNote) / 12) * iReferenceCps
+  endif
+
+  xout iCps
+endop
+
+#end

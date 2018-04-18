@@ -1,0 +1,28 @@
+#ifndef SHORT_REVERB_BUS
+#define SHORT_REVERB_BUS # 1 #
+
+#include "plugin/gain"
+
+gaShortReverbBusL init 0
+gaShortReverbBusR init 0
+
+opcode ToShortReverbBus, 0, aai
+  aInL, aInR, iSendLevel xin
+
+  aInL, aInR Gain aInL, aInR, iSendLevel
+
+  gaShortReverbBusL += aInL
+  gaShortReverbBusR += aInR
+endop
+
+opcode FromShortReverbBus, aa, 0
+  aOutL = gaShortReverbBusL
+  aOutR = gaShortReverbBusR
+
+  gaShortReverbBusL = 0
+  gaShortReverbBusR = 0
+
+  xout aOutL, aOutR
+endop
+
+#end

@@ -1,0 +1,19 @@
+t 0 60
+f 0 1
+s
+
+t 0 128
+
+#include "part/automation"
+#include "part/metronome"
+
+#include "part/bass"
+#include "part/hi-hat"
+#include "part/kick"
+#include "part/lead"
+
+s
+
+t 0 60
+f 0 3
+s

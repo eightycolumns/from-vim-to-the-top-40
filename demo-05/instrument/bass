@@ -1,0 +1,41 @@
+#include "bus/long-reverb"
+#include "bus/main-mix"
+#include "envelope/adsr"
+#include "oscillator/operator"
+#include "plugin/gain"
+#include "plugin/hi-pass"
+#include "plugin/lo-pass"
+#include "util/amp-midi-velo"
+#include "util/cps-midi-note"
+#include "util/index"
+
+instr Bass
+  iMidiVelo = p4
+  iMidiNote = p5
+
+  iDbRange = 24
+  iAmp AmpMidiVelo iMidiVelo, iDbRange
+
+  iMinMidiNote = 28
+  iMaxMidiNote = 63
+  iCps CpsMidiNote iMidiNote, iMinMidiNote, iMaxMidiNote
+
+  kAmpEnv Adsr 0.01, 0.99, 0.9, 0.25
+  kModEnv Adsr 0.00, 1.00, 0.9, 0.25
+
+  aFeedback init 0
+  aOut Operator iCps, aFeedback, 0
+  aFeedback = aOut * Index(1.5) * kModEnv
+  aOut *= iAmp * kAmpEnv
+
+  aOut, aOut HiPass aOut, aOut, 80
+  aOut, aOut HiPass aOut, aOut, gkHiPassCutoff
+
+  aOut, aOut LoPass aOut, aOut, gkLoPassCutoff, 0.1
+
+  aOut, aOut Gain aOut, aOut, -6
+  aOut, aOut Gain aOut, aOut, gkPulse * gkPulseDepth
+
+  ToLongReverbBus aOut, aOut, 0
+  ToMainMixBus aOut, aOut, 0
+endin

@@ -1,0 +1,9 @@
+#include "bus/main-mix"
+
+alwayson "MainMix"
+
+instr MainMix
+  aAuxL, aAuxR FromMainMixBus
+  aAuxL, aAuxR Gain aAuxL, aAuxR, gkMainMixGain
+  outs aAuxL, aAuxR
+endin

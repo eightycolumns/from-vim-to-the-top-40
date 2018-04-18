@@ -1,0 +1,4 @@
+instr Metronome
+  iDuration = p3
+  gkPulse linseg 1, iDuration / 2, 0, iDuration / 2 - 0.025, 0, 0.025, 1
+endin

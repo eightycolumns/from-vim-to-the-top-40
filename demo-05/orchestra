@@ -1,0 +1,18 @@
+nchnls = 2
+
+gaNull a 0
+
+gkPulse init 0
+
+#include "instrument/automation"
+#include "instrument/metronome"
+
+#include "instrument/bass"
+#include "instrument/hi-hat"
+#include "instrument/kick"
+#include "instrument/lead"
+
+#include "aux/long-reverb"
+#include "aux/short-reverb"
+
+#include "aux/main-mix"

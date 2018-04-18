@@ -1,0 +1,13 @@
+#ifndef STEREO_WIDTH
+#define STEREO_WIDTH # 1 #
+
+opcode StereoWidth, aa, aai
+  aDryL, aDryR, iStereoWidth xin
+
+  aWetL = (aDryL + aDryL * iStereoWidth + aDryR * (1 - iStereoWidth)) / 2
+  aWetR = (aDryR + aDryR * iStereoWidth + aDryL * (1 - iStereoWidth)) / 2
+
+  xout aWetL, aWetR
+endop
+
+#end

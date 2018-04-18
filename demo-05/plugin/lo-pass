@@ -1,0 +1,13 @@
+#ifndef LO_PASS
+#define LO_PASS # 1 #
+
+opcode LoPass, aa, aaki
+  aDryL, aDryR, kCutoff, iResonance xin
+
+  aWetL moogladder aDryL, kCutoff, iResonance
+  aWetR moogladder aDryR, kCutoff, iResonance
+
+  xout aWetL, aWetR
+endop
+
+#end

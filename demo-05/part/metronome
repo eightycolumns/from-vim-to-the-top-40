@@ -1,0 +1,7 @@
+{ 32 BAR
+
+  i "Metronome" [$BAR * 4 + 0] 1
+  i  .          [$BAR * 4 + 1] 1
+  i  .          [$BAR * 4 + 2] 1
+  i  .          [$BAR * 4 + 3] 1
+}

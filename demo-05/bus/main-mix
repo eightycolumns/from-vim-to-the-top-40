@@ -1,0 +1,28 @@
+#ifndef MAIN_MIX
+#define MAIN_MIX # 1 #
+
+#include "plugin/gain"
+
+gaMainMixBusL init 0
+gaMainMixBusR init 0
+
+opcode ToMainMixBus, 0, aai
+  aInL, aInR, iSendLevel xin
+
+  aInL, aInR Gain aInL, aInR, iSendLevel
+
+  gaMainMixBusL += aInL
+  gaMainMixBusR += aInR
+endop
+
+opcode FromMainMixBus, aa, 0
+  aOutL = gaMainMixBusL
+  aOutR = gaMainMixBusR
+
+  gaMainMixBusL = 0
+  gaMainMixBusR = 0
+
+  xout aOutL, aOutR
+endop
+
+#end

@@ -1,0 +1,62 @@
+#include "bus/long-reverb"
+#include "bus/main-mix"
+#include "envelope/adsr"
+#include "oscillator/operator"
+#include "plugin/gain"
+#include "plugin/hi-pass"
+#include "plugin/lo-pass"
+#include "util/amp-midi-velo"
+#include "util/cps-midi-note"
+#include "util/index"
+
+instr Lead
+  iMidiVelo = p4
+  iMidiNote = p5
+
+  iDbRange = 24
+  iAmp AmpMidiVelo iMidiVelo, iDbRange
+
+  iMinMidiNote = 36
+  iMaxMidiNote = 96
+  iCps CpsMidiNote iMidiNote, iMinMidiNote, iMaxMidiNote
+
+  kAmpEnv Adsr 0.01, 0.99, 0.9, 0.25
+  kModEnv Adsr 0.00, 1.00, 0.9, 0.25
+
+  iModCps = iCps * 2
+
+  iDetune = 5
+
+  iDetuneL cent -iDetune
+  iDetuneR cent +iDetune
+
+  iModIndex Index 0.5
+  iFeedbackIndex Index 1.5
+
+  aModulatorL Operator iModCps * iDetuneL, gaNull, 0
+  aModulatorL *= iModIndex * kModEnv
+  aFeedbackL init 0
+  aModulationL = aModulatorL + aFeedbackL
+  aOutL Operator iCps * iDetuneL, aModulationL, 0
+  aFeedbackL = aOutL * iFeedbackIndex * kModEnv
+  aOutL *= iAmp * kAmpEnv
+
+  aModulatorR Operator iModCps * iDetuneR, gaNull, 0
+  aModulatorR *= iModIndex * kModEnv
+  aFeedbackR init 0
+  aModulationR = aModulatorR + aFeedbackR
+  aOutR Operator iCps * iDetuneR, aModulationR, 0
+  aFeedbackR = aOutR * iFeedbackIndex * kModEnv
+  aOutR *= iAmp * kAmpEnv
+
+  aOutL, aOutR HiPass aOutL, aOutR, 160
+  aOutL, aOutR HiPass aOutL, aOutR, gkHiPassCutoff
+
+  aOutL, aOutR LoPass aOutL, aOutR, gkLoPassCutoff, 0.1
+
+  aOutL, aOutR Gain aOutL, aOutR, -9
+  aOutL, aOutR Gain aOutL, aOutR, gkPulse * gkPulseDepth
+
+  ToLongReverbBus aOutL, aOutR, 0
+  ToMainMixBus aOutL, aOutR, 0
+endin

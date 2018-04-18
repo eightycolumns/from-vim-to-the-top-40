@@ -1,0 +1,51 @@
+gkHiPassCutoff init 0
+
+instr HiPassCutoff
+  iDuration = p3
+
+  iA = p4
+  iB = p5
+
+  iType = p6
+
+  gkHiPassCutoff transeg iA, iDuration, iType, iB
+endin
+
+gkLoPassCutoff init 0
+
+instr LoPassCutoff
+  iDuration = p3
+
+  iA = p4
+  iB = p5
+
+  iType = p6
+
+  gkLoPassCutoff transeg iA, iDuration, iType, iB
+endin
+
+gkPulseDepth init 0
+
+instr PulseDepth
+  iDuration = p3
+
+  iA = p4
+  iB = p5
+
+  iType = p6
+
+  gkPulseDepth transeg iA, iDuration, iType, iB
+endin
+
+gkMainMixGain init 0
+
+instr MainMixGain
+  iDuration = p3
+
+  iA = p4
+  iB = p5
+
+  iType = p6
+
+  gkMainMixGain transeg iA, iDuration, iType, iB
+endin

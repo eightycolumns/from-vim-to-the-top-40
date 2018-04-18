@@ -5,6 +5,6 @@ gaNull a 0
 #include "instrument/kick"
 #include "instrument/hi-hat"
 
-#include "aux/reverb"
+#include "aux/short-reverb"
 
 #include "aux/main-mix"
