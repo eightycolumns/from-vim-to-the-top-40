@@ -1,0 +1,13 @@
+#ifndef HI_PASS
+#define HI_PASS # 1 #
+
+opcode HiPass, aa, aak
+  aDryL, aDryR, kCutoff xin
+
+  aWetL butterhp aDryL, kCutoff
+  aWetR butterhp aDryR, kCutoff
+
+  xout aWetL, aWetR
+endop
+
+#end

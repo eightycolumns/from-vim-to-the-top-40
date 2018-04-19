@@ -1,0 +1,28 @@
+#ifndef LONG_REVERB_BUS
+#define LONG_REVERB_BUS # 1 #
+
+#include "plugin/gain"
+
+gaLongReverbBusL init 0
+gaLongReverbBusR init 0
+
+opcode ToLongReverbBus, 0, aai
+  aInL, aInR, iSendLevel xin
+
+  aInL, aInR Gain aInL, aInR, iSendLevel
+
+  gaLongReverbBusL += aInL
+  gaLongReverbBusR += aInR
+endop
+
+opcode FromLongReverbBus, aa, 0
+  aOutL = gaLongReverbBusL
+  aOutR = gaLongReverbBusR
+
+  gaLongReverbBusL = 0
+  gaLongReverbBusR = 0
+
+  xout aOutL, aOutR
+endop
+
+#end

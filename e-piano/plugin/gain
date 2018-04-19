@@ -1,0 +1,13 @@
+#ifndef GAIN
+#define GAIN # 1 #
+
+opcode Gain, aa, aak
+  aDryL, aDryR, kGain xin
+
+  aWetL = aDryL * ampdbfs(kGain) / 0dbfs
+  aWetR = aDryR * ampdbfs(kGain) / 0dbfs
+
+  xout aWetL, aWetR
+endop
+
+#end

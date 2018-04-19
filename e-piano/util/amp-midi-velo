@@ -1,0 +1,10 @@
+#ifndef AMP_MIDI_VELO
+#define AMP_MIDI_VELO # 1 #
+
+opcode AmpMidiVelo, i, ii
+  iMidiVelo, iDbRange xin
+  iMaxMidiVelo = 127
+  xout ampdbfs(0 - iDbRange * (1 - iMidiVelo / iMaxMidiVelo))
+endop
+
+#end
