@@ -1,0 +1,13 @@
+#ifndef MOOG_LADDER
+#define MOOG_LADDER # 1 #
+
+opcode MoogLadder, aa, aaki
+  aDryL, aDryR, kCutoff, iResonance xin
+
+  aWetL moogladder aDryL, kCutoff, iResonance
+  aWetR moogladder aDryR, kCutoff, iResonance
+
+  xout aWetL, aWetR
+endop
+
+#end

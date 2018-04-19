@@ -1,5 +1,7 @@
 #include "bus/short-reverb"
 #include "bus/main-mix"
+#include "plugin/hi-pass"
+#include "plugin/lo-pass"
 
 alwayson "ShortReverb"
 
@@ -11,11 +13,8 @@ instr ShortReverb
 
   aWetL, aWetR freeverb aDryL, aDryR, 0.25, 1, sr
 
-  aWetL butterhp aWetL, 250
-  aWetR butterhp aWetR, 250
-
-  aWetL butterlp aWetL, 4000
-  aWetR butterlp aWetR, 4000
+  aWetL, aWetR HiPass aWetL, aWetR, 1000
+  aWetL, aWetR LoPass aWetL, aWetR, 4000
 
   ToMainMixBus aWetL, aWetR, 0
 endin

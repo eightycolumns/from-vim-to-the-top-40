@@ -11,9 +11,9 @@ instr HiPassCutoff
   gkHiPassCutoff transeg iA, iDuration, iType, iB
 endin
 
-gkLoPassCutoff init 0
+gkMoogLadderCutoff init 0
 
-instr LoPassCutoff
+instr MoogLadderCutoff
   iDuration = p3
 
   iA = p4
@@ -21,7 +21,7 @@ instr LoPassCutoff
 
   iType = p6
 
-  gkLoPassCutoff transeg iA, iDuration, iType, iB
+  gkMoogLadderCutoff transeg iA, iDuration, iType, iB
 endin
 
 gkPulseDepth init 0

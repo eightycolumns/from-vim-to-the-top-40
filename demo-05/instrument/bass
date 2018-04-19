@@ -4,7 +4,7 @@
 #include "oscillator/operator"
 #include "plugin/gain"
 #include "plugin/hi-pass"
-#include "plugin/lo-pass"
+#include "plugin/moog-ladder"
 #include "util/amp-midi-velo"
 #include "util/cps-midi-note"
 #include "util/index"
@@ -31,7 +31,7 @@ instr Bass
   aOut, aOut HiPass aOut, aOut, 80
   aOut, aOut HiPass aOut, aOut, gkHiPassCutoff
 
-  aOut, aOut LoPass aOut, aOut, gkLoPassCutoff, 0.1
+  aOut, aOut MoogLadder aOut, aOut, gkMoogLadderCutoff, 0.1
 
   aOut, aOut Gain aOut, aOut, -6
   aOut, aOut Gain aOut, aOut, gkPulse * gkPulseDepth

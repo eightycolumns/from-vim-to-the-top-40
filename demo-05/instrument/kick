@@ -3,7 +3,7 @@
 #include "oscillator/operator"
 #include "plugin/gain"
 #include "plugin/hi-pass"
-#include "plugin/lo-pass"
+#include "plugin/moog-ladder"
 #include "util/amp-midi-velo"
 #include "util/cps-midi-note"
 #include "util/index"
@@ -34,7 +34,7 @@ instr Kick
   aNoiseFeedback = aNoise * Index(100)
   aNoise *= iAmp * kModEnv
 
-  aNoise, aNoise LoPass aNoise, aNoise, 8000, 0.1
+  aNoise, aNoise MoogLadder aNoise, aNoise, 8000, 0.1
 
   aOut = aPitch + aNoise / 16
 

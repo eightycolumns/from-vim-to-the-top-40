@@ -1,8 +1,8 @@
 nchnls = 2
 
 gaNull a 0
-
 gkPulse init 0
+giSinFt ftgenonce 0, 0, pow(2, 16), 10, 1
 
 #include "instrument/automation"
 #include "instrument/metronome"
