@@ -1,0 +1,13 @@
+#ifndef LO_PASS
+#define LO_PASS # 1 #
+
+opcode LoPass, aa, aak
+  aDryL, aDryR, kCutoff xin
+
+  aWetL butterlp aDryL, kCutoff
+  aWetR butterlp aDryR, kCutoff
+
+  xout aWetL, aWetR
+endop
+
+#end

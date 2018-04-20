@@ -1,0 +1,20 @@
+#include "bus/long-reverb"
+#include "bus/main-mix"
+#include "plugin/hi-pass"
+#include "plugin/lo-pass"
+
+alwayson "LongReverb"
+
+instr LongReverb
+  aDryL, aDryR FromLongReverbBus
+
+  denorm aDryL
+  denorm aDryR
+
+  aWetL, aWetR freeverb aDryL, aDryR, 0.75, 1, sr
+
+  aWetL, aWetR HiPass aWetL, aWetR, 250
+  aWetL, aWetR LoPass aWetL, aWetR, 1000
+
+  ToMainMixBus aWetL, aWetR, 0
+endin

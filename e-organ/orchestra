@@ -1,0 +1,10 @@
+nchnls = 2
+
+gaNull a 0
+giSinFt ftgenonce 0, 0, pow(2, 16), 10, 1
+
+#include "instrument/e-organ"
+
+#include "aux/long-reverb"
+
+#include "aux/main-mix"

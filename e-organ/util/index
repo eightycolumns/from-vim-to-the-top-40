@@ -1,0 +1,10 @@
+#ifndef INDEX
+#define INDEX # 1 #
+
+opcode Index, i, i
+  iIndex xin
+  iTwoPi = $M_PI * 2
+  xout iIndex / iTwoPi
+endop
+
+#end

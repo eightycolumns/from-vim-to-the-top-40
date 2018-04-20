@@ -1,0 +1,16 @@
+#include "bus/main-mix"
+#include "plugin/hi-pass"
+#include "plugin/lo-pass"
+
+alwayson "MainMix"
+
+instr MainMix
+  aAuxL, aAuxR FromMainMixBus
+
+  aAuxL, aAuxR HiPass aAuxL, aAuxR, 40
+  aAuxL, aAuxR LoPass aAuxL, aAuxR, 16000
+
+  aAuxL, aAuxR Gain aAuxL, aAuxR, 0
+
+  outs aAuxL, aAuxR
+endin

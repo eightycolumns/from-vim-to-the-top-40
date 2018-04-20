@@ -1,0 +1,77 @@
+#include "bus/long-reverb"
+#include "bus/main-mix"
+#include "oscillator/operator"
+#include "plugin/gain"
+#include "plugin/hi-pass"
+#include "plugin/lo-pass"
+#include "util/amp-midi-velo"
+#include "util/cps-midi-note"
+#include "util/index"
+#include "util/key-tracking-factor"
+#include "util/velo-tracking-factor"
+
+opcode EOrganOscillator, a, iikii
+  iCps, iAmp, kAmpEnv, iKtf, iVtf xin
+
+  iIndex Index 0.4 * (1 - iKtf)
+  iIndex += iIndex * 0.25 * iVtf
+
+  aModulatorA init 0
+  aModulatorA Operator iCps, aModulatorA, 0
+  aModulatorA *= iIndex * kAmpEnv
+
+  aModulatorB Operator iCps * 3, gaNull, 0
+  aModulatorB *= iIndex / 2 * kAmpEnv
+
+  aModulatorC Operator iCps * 7, gaNull, 0
+  aModulatorC *= iIndex / 8 * kAmpEnv
+
+  aCarrier Operator iCps, aModulatorA + aModulatorB + aModulatorC, 0
+
+  xout aCarrier * iAmp * kAmpEnv
+endop
+
+instr EOrgan
+  iMidiVelo = p4
+  iMidiNote = p5
+
+  iDbRange = 24
+  iAmp AmpMidiVelo iMidiVelo, iDbRange
+
+  iMinMidiNote = 36
+  iMaxMidiNote = 96
+  iCps CpsMidiNote iMidiNote, iMinMidiNote, iMaxMidiNote
+
+  iKtf KeyTrackingFactor iMidiNote, iMinMidiNote, iMaxMidiNote
+  iVtf VeloTrackingFactor iMidiVelo
+
+  iAttack = 0.01
+  iDecay = 0.99
+  iRelease = 0.25
+
+  kAmpEnv transegr 0, iAttack, -3, 1, iDecay, -3, 0.9, iRelease, -3, 0
+
+  aOsc EOrganOscillator iCps, iAmp, kAmpEnv, iKtf, iVtf
+
+  iCpsLo = iCps * cent(-3)
+  iCpsHi = iCps * cent(+7)
+
+  aOscLo EOrganOscillator iCpsLo, iAmp, kAmpEnv, iKtf, iVtf
+  aOscHi EOrganOscillator iCpsHi, iAmp, kAmpEnv, iKtf, iVtf
+
+  if (birnd(1) < 0) then
+    aOutL = aOsc * 0.4 + aOscLo * 0.4 + aOscHi * 0.2
+    aOutR = aOsc * 0.4 + aOscLo * 0.2 + aOscHi * 0.4
+  else
+    aOutL = aOsc * 0.4 + aOscLo * 0.2 + aOscHi * 0.4
+    aOutR = aOsc * 0.4 + aOscLo * 0.4 + aOscHi * 0.2
+  endif
+
+  aOutL, aOutR HiPass aOutL, aOutR, 160
+  aOutL, aOutR LoPass aOutL, aOutR, 16000
+
+  aOutL, aOutR Gain aOutL, aOutR, 0
+
+  ToLongReverbBus aOutL, aOutR, 0
+  ToMainMixBus aOutL, aOutR, 0
+endin
