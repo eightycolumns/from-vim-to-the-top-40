@@ -66,7 +66,7 @@ instr EPiano
   aOut, aOut HiPass aOut, aOut, 160
   aOut, aOut LoPass aOut, aOut, 16000
 
-  aOut, aOut Gain aOut, aOut, 0
+  aOut, aOut Gain aOut, aOut, -3
 
   ToLongReverbBus aOut, aOut, 0
   ToMainMixBus aOut, aOut, 0

@@ -70,7 +70,7 @@ instr EOrgan
   aOutL, aOutR HiPass aOutL, aOutR, 160
   aOutL, aOutR LoPass aOutL, aOutR, 16000
 
-  aOutL, aOutR Gain aOutL, aOutR, 0
+  aOutL, aOutR Gain aOutL, aOutR, -3
 
   ToLongReverbBus aOutL, aOutR, 0
   ToMainMixBus aOutL, aOutR, 0

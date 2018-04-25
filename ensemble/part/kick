@@ -1,4 +1,4 @@
 { 64 BEAT
 
-  i "Kick" [64 + $BEAT] 1 64 33
+  i "Kick" [64 + $BEAT] 1 100 33
 }

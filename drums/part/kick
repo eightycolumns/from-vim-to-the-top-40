@@ -1,6 +1,6 @@
 { 8 BEATS
 
-  i "Kick" [ $BEATS ]   1 64 33
+  i "Kick" [ $BEATS ]   1 100 33
 }
 
-  i  .              ^+1 .  .  .
+  i  .              ^+1 .   .  .

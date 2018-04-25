@@ -39,7 +39,7 @@ instr Kick
   aOut = aPitch + aNoise / 16
 
   aOut, aOut HiPass aOut, aOut, 40
-  aOut, aOut Gain aOut, aOut, 0
+  aOut, aOut Gain aOut, aOut, -3
 
   ToShortReverbBus aOut, aOut, -12
   ToMainMixBus aOut, aOut, 0
